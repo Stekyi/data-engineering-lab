@@ -5,4 +5,42 @@ sources:
     schema: sales
     tables:
       - name: orders
-      - name: customers 
+        columns:
+          - name: order_id
+            data_tests: 
+              - not_null
+              - unique
+          
+          - name: customer_id
+            data_tests: 
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('sales', 'customers')
+                    field: customer_id
+
+          - name: order_amount
+            data_tests: 
+              - not_null
+          - name: order_status
+            data_tests: 
+              - not_null
+              - accepted_values:
+                  arguments:
+                    values: ['pending', 'completed']
+
+
+      - name: customers
+        columns:
+          - name: customer_id
+            data_tests: 
+              - not_null
+              - unique
+
+          - name: customer_name
+            data_tests: 
+              - not_null
+              
+          - name: email
+            data_tests: 
+              - not_null
